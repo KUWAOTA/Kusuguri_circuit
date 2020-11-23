@@ -7,8 +7,8 @@ import copy
 #state:左手が膨らんでたらtrue、逆はfalse
 def event(state):
     api_cmd = ['tplink-smarthome-api', 'setPowerState']
-    #Left_Expand_Right_Deflate：左手膨張右手収縮
-    #Right_Expand_Left_Deflate：右手膨張左手収縮
+    #LERD:Left_Expand_Right_Deflate：左手膨張右手収縮
+    #RELD:Right_Expand_Left_Deflate：右手膨張左手収縮
     if state == None:
         LERD = ['False']
         RELD = ['False']
@@ -17,7 +17,7 @@ def event(state):
         RELD = [chr(not state)]
     #Left_Expand->Left_Deflate->Right_Expand->Right_Deflate
     Relay_IP= [['192.168.179.14'], [None], [None], [None]]
-    subprocess.run(api_cmd + LERD + Relay_IP[0])
+    subprocess.run(api_cmd + LERD+ Relay_IP[0])
 
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
