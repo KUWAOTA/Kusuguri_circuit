@@ -35,4 +35,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 data = conn.recv(1024)
                 if data == b'1':
                     #event(True)
-                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','False'])
+                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','true'])
+                    time.sleep(2)
+                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','false'])
+                    time.sleep(2)
+                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','true'])
+                    time.sleep(2)
+                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','false'])
