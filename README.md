@@ -11,7 +11,7 @@ http://conference.vrsj.org/ac2020/program/doc/3B3-11_PR0114.pdf
 担当者:宇野<br>
 スマートプラグに電源on-off信号を送る部分です。<br>
 Unityからくすぐり開始信号を受け取けとるためにサーバーを立ててます。
-## ??
+### ??
 担当者:福田
 ## Author 
 * 作成者:宇野, 福田
