@@ -1,11 +1,8 @@
-import socket
 import requests
 import time
 import subprocess
-import copy
 import asyncio
-from websocket import create_connection
-import json
+import websockets
 
 def apihitter(on_off, Relay_IP):
     api_cmd = ['tplink-smarthome-api', 'setPowerState'] + [Relay_IP]
@@ -18,7 +15,7 @@ def apihitter(on_off, Relay_IP):
     subprocess.run(api_cmd)
 
 #state:左手が膨らんでたらtrue、逆はfalse
-def event(Relay_IPs):
+def loop(Relay_IPs):
 
     #LERD:Left_Expand_Right_Deflate：左手膨張右手収縮
     #RELD:Right_Expand_Left_Deflate：右手膨張左手収縮
@@ -49,12 +46,18 @@ def notweb_socket(Relay_IPs):
                     # データを受け取る
                     data = conn.recv(1024)
                     if data == b'1':
-                        event(Relay_IPs)
+                        pass
 
+async def event(websocket, path):
+    Relay_IPs = [['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']]
+    name = await websocket.recv()
+    if bool(name):
+        loop(Relay_IPs)
 
 def main():
-    web_socket_relay()
-    #relay_socket([['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']])
+    start_server = websockets.serve(hello, "localhost", 8080)
+    asyncio.get_event_loop().run_until_complete(start_server)
+    asyncio.get_event_loop().run_forever()
 
 if __name__ == "__main__":
     main()
