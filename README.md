@@ -1,4 +1,4 @@
-# Kusuguri_circuit
+# くすぐってみ〜な
 自分で自分をくすぐっているのにくすぐられるように感じるVR作品「くすぐってみ〜な」のレポジトリです。
 ## DEMO
 https://www.youtube.com/watch?v=OhA2OhtvwsU&feature=emb_logo
