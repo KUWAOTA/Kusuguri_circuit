@@ -4,41 +4,51 @@ import time
 import subprocess
 import copy
 
+def apihitter(on_off, Relay_IP):
+    api_cmd = ['tplink-smarthome-api', 'setPowerState'] + [Relay_IP]
+    #npmはtrueだが、pythonはTrueなので
+    if on_off :
+        api_cmd += ['true']
+    else:
+        api_cmd += ['false']
+    print(api_cmd)
+    subprocess.run(api_cmd)
+
 #state:左手が膨らんでたらtrue、逆はfalse
-def event(state):
-    api_cmd = ['tplink-smarthome-api', 'setPowerState']
+def event(Relay_IPs):
+
     #LERD:Left_Expand_Right_Deflate：左手膨張右手収縮
     #RELD:Right_Expand_Left_Deflate：右手膨張左手収縮
-    if state == None:
-        LERD = ['False']
-        RELD = ['False']
-    else:
-        LERD = [chr(state)]
-        RELD = [chr(not state)]
-    #Left_Expand->Left_Deflate->Right_Expand->Right_Deflate
-    Relay_IP= [['192.168.179.14'], [None], [None], [None]]
-    subprocess.run(api_cmd + LERD+ Relay_IP[0])
+    #[Left_Expand->Left_Deflate]->[Right_Expand->Right_Deflate]
+    looptimes = 6
+    for i in range(looptimes):
+        apihitter(i % 2 == 0 and i != 5, Relay_IPs[0][0])
+        apihitter(i % 2 == 1 and i != 5, Relay_IPs[0][1])
+        apihitter(i % 2 == 1 and i != 5, Relay_IPs[1][0])
+        apihitter(i % 2 == 0 and i != 5, Relay_IPs[1][1])
+        time.sleep(2)
 
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    # IPアドレスとポートを指定
-    s.bind(('127.0.0.1', 50007))
-    # 1 接続
-    s.listen(1)
-    # connection するまで待つ
-    while True:
-        # 誰かがアクセスしてきたら、コネクションとアドレスを入れる
-        conn, addr = s.accept()
-        with conn:
-            while True:
-                # データを受け取る
-                data = conn.recv(1024)
-                if data == b'1':
-                    #event(True)
-                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','true'])
-                    time.sleep(2)
-                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','false'])
-                    time.sleep(2)
-                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','true'])
-                    time.sleep(2)
-                    subprocess.run(['tplink-smarthome-api', 'setPowerState','192.168.179.14','false'])
+
+
+def relay_socket(Relay_IPs):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        # IPアドレスとポートを指定
+        s.bind(('127.0.0.1', 50007))
+        # 1 接続
+        s.listen(1)
+        # connection するまで待つ
+        while True:
+            # 誰かがアクセスしてきたら、コネクションとアドレスを入れる
+            conn, addr = s.accept()
+            with conn:
+                while True:
+                    # データを受け取る
+                    data = conn.recv(1024)
+                    if data == b'1':
+                        event(Relay_IPs)
+def main():
+    relay_socket([['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']])
+
+if __name__ == "__main__":
+    main()
