@@ -7,3 +7,5 @@ https://www.itmedia.co.jp/news/articles/2011/05/news067.html
 ## Article
 http://conference.vrsj.org/ac2020/program/doc/3B3-11_PR0114.pdf
 ## 宇野担当部分
+socket-hardwareディレクトリ内のもの
+## 福田担当部分
