@@ -42,13 +42,14 @@ HS105(JP) plug IOT.SMARTPLUGSWITCH 192.168.179.17 9999 B095757AE4C7 8006B682AF65
 * right_deflate:右手側を縮ませる部分のリレー
 ### IPアドレスの反映
 `socket-hardware/server.py`の`main`関数を書き換えます。
-`relay_socket`関数の引数を以下のように設定しなおします。((left_expand -> left_deflate), (right_expand, right_deflate))の順です。
+`relay_socket`関数の引数を以下のように設定しなおします。<br>((left_expand -> left_deflate), (right_expand, right_deflate))の順です。
 ```
 def main():
     relay_socket([['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']])
 ```
 ### サーバーを立てる
-`python socket-hardware/server.py`を実行します。
+`python socket-hardware/server.py`を実行します。<br>
+サーバーを立てておけばPC本体のUnityファイルを実行すればデバイスが映像に合わせて動きます。
 
 ## ディレクトリ説明
 ### socket-hardware
