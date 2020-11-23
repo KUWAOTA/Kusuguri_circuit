@@ -3,6 +3,9 @@ import requests
 import time
 import subprocess
 import copy
+import asyncio
+from websocket import create_connection
+import json
 
 def apihitter(on_off, Relay_IP):
     api_cmd = ['tplink-smarthome-api', 'setPowerState'] + [Relay_IP]
@@ -31,7 +34,7 @@ def event(Relay_IPs):
 
 
 
-def relay_socket(Relay_IPs):
+def notweb_socket(Relay_IPs):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         # IPアドレスとポートを指定
         s.bind(('127.0.0.1', 50007))
@@ -47,8 +50,11 @@ def relay_socket(Relay_IPs):
                     data = conn.recv(1024)
                     if data == b'1':
                         event(Relay_IPs)
+
+
 def main():
-    relay_socket([['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']])
+    web_socket_relay()
+    #relay_socket([['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']])
 
 if __name__ == "__main__":
     main()
