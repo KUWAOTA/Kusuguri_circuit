@@ -55,7 +55,7 @@ async def event(websocket, path):
         loop(Relay_IPs)
 
 def main():
-    start_server = websockets.serve(hello, "localhost", 8080)
+    start_server = websockets.serve(event, "localhost", 8080)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
 
