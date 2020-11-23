@@ -6,6 +6,50 @@
 https://www.itmedia.co.jp/news/articles/2011/05/news067.html
 ## Article
 http://conference.vrsj.org/ac2020/program/doc/3B3-11_PR0114.pdf
+## 準備
+* 「くすぐってみ〜な」のハードウェア・PCを用意
+* tp-link HS105を用意し、wifiに接続
+* pythonのインストール
+* npmのインストール
+* tplink-smarthome-apiのインストール
+```
+npm install -g tplink-smarthome-api
+```
+## Usage
+### tp-link HS105(4つ)のIPアドレスを以下のコマンドで推定します。
+```
+tplink-smarthome-api search
+```
+実行結果は以下のようになります。
+
+```
+Searching...
+startDiscovery({
+  discoveryInterval: 2000,
+  discoveryTimeout: 10000,
+  breakoutChildren: true,
+  broadcast: '255.255.255.255'
+})
+HS105(JP) plug IOT.SMARTPLUGSWITCH 192.168.179.15 9999 B095757AECFE 8006AAAC62CD28A5A538CED13C09B7F71CDC3939 left_deflate
+HS105(JP) plug IOT.SMARTPLUGSWITCH 192.168.179.14 9999 B095757AED08 8006474E14566832C66EE1D6CD56242F1CDC7A88 left_expand
+HS105(JP) plug IOT.SMARTPLUGSWITCH 192.168.179.16 9999 B095757AE68A 8006F8CA95EF20C9305A2F9A01FBCD9E1CDC591C right_expand
+HS105(JP) plug IOT.SMARTPLUGSWITCH 192.168.179.17 9999 B095757AE4C7 8006B682AF6573229324F6788B2F95D31CDCC961 right_deflate
+```
+それぞれの名前は以下のように対応しています。
+* left_expand:左手側を膨ませる部分のリレー
+* left_deflate:右手側を縮ませる部分のリレー
+* right_expand:左手側を膨ませる部分のリレー
+* right_deflate:右手側を縮ませる部分のリレー
+### IPアドレスの反映
+`socket-hardware/server.py`の`main`関数を書き換えます。
+`relay`関数の引数を以下のように設定しなおします。((left_expand -> left_deflate), (right_expand, right_deflate))の順です。
+```
+def main():
+    relay_socket([['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']])
+```
+### サーバーを立てる
+`python socket-hardware/server.py`を実行します。
+
 ## ディレクトリ説明
 ### socket-hardware
 担当者:宇野<br>
