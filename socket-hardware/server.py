@@ -49,6 +49,7 @@ def notweb_socket(Relay_IPs):
                         pass
 
 async def event(websocket, path):
+    #[[left_expand, left_deflate], [right_expand, right_deflate]]
     Relay_IPs = [['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']]
     name = await websocket.recv()
     if bool(name):
