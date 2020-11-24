@@ -46,7 +46,7 @@ HS105(JP) plug IOT.SMARTPLUGSWITCH 192.168.179.17 9999 B095757AE4C7 8006B682AF65
 * right_deflate:右手側を縮ませる部分のリレー
 ### IPアドレスの反映
 `socket-hardware/server.py`の`event`関数を書き換えます。
-`Relay_IPs`を以下のように設定しなおします。<br>`[[left_expand -> left_deflate], [right_expand, right_deflate]]`の順です。
+`Relay_IPs`を以下のように設定しなおします。<br>`[[left_expand, left_deflate], [right_expand, right_deflate]]`の順です。
 ```
 async def event(websocket, path):
     Relay_IPs = [['192.168.179.14','192.168.179.15'],['192.168.179.16','192.168.179.17']]
