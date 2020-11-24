@@ -12,6 +12,7 @@ http://conference.vrsj.org/ac2020/program/doc/3B3-11_PR0114.pdf
 ## 準備
 * 「くすぐってみ〜な」のハードウェア・PCを用意
 * tp-link HS105を用意し、wifiに接続
+(PCとtp-link HS105のwifiは同じものにしておく)
 * pythonのインストール
 * npmのインストール
 * tplink-smarthome-apiのインストール
